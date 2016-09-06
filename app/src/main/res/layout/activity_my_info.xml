@@ -63,7 +63,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@mipmap/ic_launcher"
             android:paddingRight="20dp"
             android:id="@+id/iv_headpic"
             android:layout_gravity="center_vertical"/>
@@ -142,13 +141,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="男"
+            android:text=""
             android:layout_gravity="center_vertical"
             android:id="@+id/tv_sex"/>
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_height="50dp"
-            android:src="@drawable/go"
             android:paddingRight="20dp"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
@@ -183,13 +181,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="江西理工大学本部"
+            android:text=""
             android:layout_gravity="center_vertical"
             android:id="@+id/tv_school"/>
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_height="50dp"
-            android:src="@drawable/go"
             android:paddingRight="20dp"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
@@ -224,13 +221,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="18720783407"
+            android:text=""
             android:layout_gravity="center_vertical"
             android:id="@+id/tv_phone"/>
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_height="50dp"
-            android:src="@drawable/go"
             android:paddingRight="20dp"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
@@ -261,13 +257,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="广东"
+            android:text="赣州"
             android:layout_gravity="center_vertical"
             android:id="@+id/tv_address"/>
         <ImageView
             android:layout_width="40dp"
             android:layout_height="50dp"
-            android:src="@drawable/go"
             android:paddingRight="20dp"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>

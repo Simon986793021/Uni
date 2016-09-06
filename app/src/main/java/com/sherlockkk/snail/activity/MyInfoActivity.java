@@ -2,36 +2,53 @@ package com.sherlockkk.snail.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.GetCallback;
+import com.avos.avoscloud.ProgressCallback;
+import com.avos.avoscloud.SaveCallback;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.ui.CircleImageView;
 import com.sherlockkk.snail.utils.CacheUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.util.EntityUtils;
 
 /**
  * @author Simon
@@ -43,6 +60,9 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
     private TextView textView;
     private LinearLayout userNameLinearLayout;
     private LinearLayout personalnoteLinearLayout;
+    private TextView genderTextView;
+    private TextView schoolTextView;
+    private TextView phoneTextView;
     private AlertDialog selectDialog;
     private TextView usernameTextView;
     private String userName;
@@ -53,6 +73,11 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
     private CircleImageView circleImageView;
     private TextView personalnoteTextView;
     private String personalnote;
+    private String gender;
+    private String school;
+    private String phoneNumber;
+    private AVFile avFile;
+    private String headPicUrl;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -70,7 +95,9 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
         circleImageView = (CircleImageView) findViewById(R.id.iv_headpic);
         usernameTextView = (TextView) findViewById(R.id.tv_username);
         personalnoteTextView = (TextView) findViewById(R.id.tv_personalnote);
-
+        genderTextView= (TextView) findViewById(R.id.tv_sex);
+        schoolTextView= (TextView) findViewById(R.id.tv_school);
+        phoneTextView= (TextView) findViewById(R.id.tv_phone);
         loadData();
 
 
@@ -84,25 +111,96 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
     }
 
     private void loadData() {
-        userName = AVUser.getCurrentUser().getUsername();
-        usernameTextView.setText(userName);
-        SharedPreferences sharedPreferences=getSharedPreferences("personalnote",MODE_WORLD_WRITEABLE);
+
+       // SharedPreferences sharedPreferences=getSharedPreferences("personalnote",MODE_WORLD_WRITEABLE);
        // personalnote=sharedPreferences.getString("personalnote","");
-            AVQuery<AVObject> avQuery=new AVQuery<>("_User");
-            avQuery.getInBackground(AVUser.getCurrentUser().getObjectId(), new GetCallback<AVObject>() {
-                @Override
-                public void done(AVObject avObject, AVException e) {
-                    if (avObject!=null)
-                    {
-                        personalnote = avObject.getString("personalnote");
+        AVQuery<AVObject> avQuery=new AVQuery<>("_User");
+        avQuery.getInBackground(AVUser.getCurrentUser().getObjectId(), new GetCallback<AVObject>() {
+            @Override
+            public void done(AVObject avObject, AVException e) {
+                personalnote=avObject.getString("personalnote");
+                gender=avObject.getString("gender");
+                school=avObject.getString("school");
+                phoneNumber=avObject.getString("mobilePhoneNumber");
+                userName=avObject.getString("username");
+                headPicUrl=avObject.getString("headPicUrl");
+                SharedPreferences sharedPreferences=getSharedPreferences("headPic",Activity.MODE_PRIVATE);
+                String headPic=sharedPreferences.getString("headPic","");
+                Bitmap bitmap=null;
+                if (headPic!="") {
+                    byte[] bytes = Base64.decode(headPic.getBytes(),1);
+                  //  byte[] bytes =headPic.getBytes();
+                    bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    circleImageView.setImageBitmap(bitmap);
+                }
+               else {
+                    if (headPicUrl != null) {
+                        HeadPicAsyncTask myAsyncTask = new HeadPicAsyncTask(circleImageView, MyInfoActivity.this);
+                        myAsyncTask.execute(headPicUrl);
                     }
                 }
-            });
+                /*
+                异步操作，更新UI需要在异步操作结束后才能获取到数据
+                 */
+
+                personalnoteTextView.setText(personalnote);
+                genderTextView.setText(gender);
+                schoolTextView.setText(school);
+                phoneTextView.setText(phoneNumber);
+                usernameTextView.setText(userName);
+
+            }
+        });
 
 
-       personalnoteTextView.setText(personalnote);
+
+
     }
 
+    class HeadPicAsyncTask extends AsyncTask<String,Void,Bitmap>
+    {
+        private ImageView imageView;
+        private Context context;
+        public HeadPicAsyncTask(ImageView imageView, Context context)
+        {}
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            HttpClient httpClient=new DefaultHttpClient();
+            HttpGet httpGet=new HttpGet(params[0]);
+            Bitmap bitmap=null;
+            try {
+                HttpResponse httpResponse=httpClient.execute(httpGet);
+                if (httpResponse.getStatusLine().getStatusCode()==200)
+                {
+                    HttpEntity httpEntity=httpResponse.getEntity();
+                    byte[] bytes= EntityUtils.toByteArray(httpEntity);
+                    bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            /*
+            将图片转化成64位字节流，存储到本地
+             */
+            SharedPreferences sharedPreferences=getSharedPreferences("headPic", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
+            String headPicBase64=new String(Base64.encodeToString(byteArrayOutputStream.toByteArray(),Base64.DEFAULT));
+            editor.putString("headPic",headPicBase64);
+            editor.commit();
+
+            circleImageView.setImageBitmap(bitmap);
+
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -197,8 +295,8 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
 
-        intent.putExtra("outputX", 40);
-        intent.putExtra("outputY", 40);
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
         intent.putExtra("crop", "true");
         intent.putExtra("scale", true);
         intent.putExtra("scaleUpIfNeeded", true);
@@ -244,9 +342,39 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
                         Bundle extras = data.getExtras();
                         if (extras != null) {
                             Bitmap bitmap = extras.getParcelable("data");
+                           // AVFile avfile=new AVFile("head.png",data.getData())
 
                             String iconUrl = saveToSdCard(bitmap);
-                            circleImageView.setImageBitmap(bitmap);
+                            try {
+                              avFile = AVFile.withAbsoluteLocalPath("head.png",iconUrl );
+                                AVUser.getCurrentUser().add("headPic",avFile);
+                                AVUser.getCurrentUser().saveInBackground();
+                                avFile.saveInBackground(new SaveCallback() {
+                                                            @Override
+                                                            public void done(AVException e) {
+                                                               headPicUrl=  avFile.getUrl();
+                                                                AVUser.getCurrentUser().put("headPicUrl",headPicUrl);
+                                                                AVUser.getCurrentUser().saveInBackground();
+                                                                HeadPicAsyncTask myAsyncTask=new HeadPicAsyncTask(circleImageView,MyInfoActivity.this);
+                                                                myAsyncTask.execute(headPicUrl);
+                                                                // Toast.makeText(MyInfoActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        },
+                                        new ProgressCallback() {
+                                            @Override
+                                            public void done(Integer integer) {
+                                                if (integer==100)
+                                                {
+                                                    Toast.makeText(MyInfoActivity.this,"上传了100%",Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                );
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+                           circleImageView.setImageBitmap(bitmap);
                             //updateIcon(iconUrl);
                         }
                     }

@@ -2,12 +2,16 @@ package com.sherlockkk.snail.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,7 +25,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.GetCallback;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.activity.FeedBackActivity;
 import com.sherlockkk.snail.activity.LoginActivity;
@@ -30,6 +38,7 @@ import com.sherlockkk.snail.base.BaseFragment;
 import com.sherlockkk.snail.tools.ToolLog;
 import com.sherlockkk.snail.utils.CacheUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,6 +48,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.util.EntityUtils;
 
 import static com.sherlockkk.snail.R.id.tv_logout;
 
@@ -64,7 +80,7 @@ public class MineFragment extends BaseFragment  {
     private final int GET_AVATA_FROM_ALBUM = 1;
     private final int GET_AVATA_FROM_CAMERA = 2;
     private final int PHOTO_ZOOM = 3;
-
+    private String headPicUrl;
 
     @Override
     protected View initView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +91,31 @@ public class MineFragment extends BaseFragment  {
         textView_loc = (TextView) view.findViewById(R.id.tv_mine_loc);
         textView_sex = (TextView) view.findViewById(R.id.tv_mine_sex);
         textView_signature = (TextView) view.findViewById(R.id.tv_mine_signature);
+
+        SharedPreferences sharedPreferences=mActivity.getSharedPreferences("headPic",Activity.MODE_PRIVATE);
+        String headPic=sharedPreferences.getString("headPic","");
+        Bitmap bitmap=null;
+        if (headPic!="") {
+            byte[] bytes = Base64.decode(headPic.getBytes(),1);
+            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+         else {
+            AVQuery<AVObject> avQuery=new AVQuery<>("_User");
+            avQuery.getInBackground(AVUser.getCurrentUser().getObjectId(), new GetCallback<AVObject>() {
+                @Override
+                public void done(AVObject avObject, AVException e) {
+                    headPicUrl=avObject.getString("headPicUrl");
+                    if (headPicUrl!=null)
+                    {
+                        HeadPicAsyncTask headPicAsyncTask=new HeadPicAsyncTask();
+                        headPicAsyncTask.execute(headPicUrl);
+                    }
+                }
+            });
+
+
+        }
+        imageView_userIcon.setImageBitmap(bitmap);
 
 
         setListener();
@@ -153,6 +194,45 @@ public class MineFragment extends BaseFragment  {
 
 
         return view;
+    }
+    class HeadPicAsyncTask extends AsyncTask<String,Void,Bitmap>{
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            HttpClient httpClient=new DefaultHttpClient();
+            HttpGet httpGet=new HttpGet(params[0]);
+            Bitmap bitmap=null;
+            try {
+                HttpResponse httpResponse=httpClient.execute(httpGet);
+                if (httpResponse.getStatusLine().getStatusCode()==200)
+                {
+                    HttpEntity httpEntity=httpResponse.getEntity();
+                    byte[] bytes= EntityUtils.toByteArray(httpEntity);
+                    bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            /*
+            将图片转化成64位字节流，存储到本地
+             */
+            SharedPreferences sharedPreferences=mActivity.getSharedPreferences("headPic", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
+            String headPicBase64=new String(Base64.encodeToString(byteArrayOutputStream.toByteArray(),Base64.DEFAULT));
+            editor.putString("headPic",headPicBase64);
+            editor.commit();
+
+            imageView_userIcon.setImageBitmap(bitmap);
+
+        }
     }
 
     private void setListener() {
