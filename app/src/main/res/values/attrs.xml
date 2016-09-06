@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="slidingBlock" format="reference|color"/>
+        <attr name="allowWidthFull" format="boolean"/>
+        <attr name="disableViewPager" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="PasswordInputView">
+        <attr name="border_Width" format="dimension"/>
+        <attr name="border_Color" format="color"/>
+        <attr name="border_Radius" format="dimension"/>
+        <attr name="passwordLength" format="integer"/>
+        <attr name="passwordWidth" format="dimension"/>
+        <attr name="passwordColor" format="color"/>
+        <attr name="passwordRadius" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name = "PriceView">
+        <attr name = "value" format = "reference|string" />
+        <attr name = "textColor" format = "reference|color"/>
+        <attr name  = "textSize" format = "reference|dimension"/>
+        <attr name = "moneySize" format = "reference|dimension"/>
+        <attr name  = "intSize" format = "reference|dimension"/>
+        <attr name="decimalSize" format="reference|dimension" />
+        <attr name =  "strike" format = "boolean"/>
+        <attr name = "withEndZero" format = "boolean"/>
+    </declare-styleable>
+
+
+</resources>

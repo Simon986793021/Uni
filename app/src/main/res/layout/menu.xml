@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="360dp"
+    android:layout_height="match_parent"
+    android:clickable="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/ll_menu"
+        android:orientation="vertical"
+        android:background="@color/light_menu_header"
+        android:paddingBottom="10dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="50dp">
+            <com.sherlockkk.snail.ui.CircularImage
+                android:id="@+id/iv_menu_avata"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_account_circle_white_24dp" />
+
+            <TextView
+                android:id="@+id/tv_login"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="请登录"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_18" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_menu_index_background"
+        android:paddingBottom="10dp"
+        android:paddingLeft="80dp"
+        android:paddingTop="10dp"
+        android:text="首页"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="@dimen/text_size_18" />
+
+    <ListView
+        android:id="@+id/lv_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+
+        android:scrollbars="none"></ListView>
+</LinearLayout>
+    <!--
+            android:divider="@android:color/transparent"
+        -->

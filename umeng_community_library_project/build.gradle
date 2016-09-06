@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 15
+    buildToolsVersion '22.0.1'
+//    compileSdkVersion 23
+//    buildToolsVersion '23.0.2'
+
+    defaultConfig {
+//        minSdkVersion 10
+//        targetSdkVersion 22
+        minSdkVersion 14
+        targetSdkVersion 14
+        versionCode 1
+        versionName "1.0"
+
+        multiDexEnabled = true//配置为true，表示需要将dex分包，false则不分包
+
+    }
+
+//    dexOptions{
+//        javaMaxHeapSize "2g"//设置虚拟机堆内存空间大小，避免在编译期间OOM
+//    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+}
