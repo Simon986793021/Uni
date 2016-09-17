@@ -6,15 +6,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/login_bg"
     android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_register"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryDark"
-        android:fitsSystemWindows="true"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <include layout="@layout/activity_toolbar"/>
 
 
     <LinearLayout
@@ -151,12 +143,6 @@
             style="@style/h_line"
             android:layout_marginTop="10dp" />
 
-        <TextView
-            android:id="@+id/tv_select_birth"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:gravity="center"
-            android:text="点击选择出生日期" />
 
         <View style="@style/h_line" />
     </LinearLayout>

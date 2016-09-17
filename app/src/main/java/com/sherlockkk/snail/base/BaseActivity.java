@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.sherlockkk.snail.R;
@@ -16,8 +14,7 @@ import com.sherlockkk.snail.R;
  * @created 2016/1/16.
  * @e-mail 1129574214@qq.com
  */
-public abstract class BaseActivity extends AppCompatActivity {
-    public Toolbar mToolbar;
+public abstract class BaseActivity extends Activity {
     public Bundle savedInstanceState;
 
     @Override
@@ -25,8 +22,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.savedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_base);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_base);
-        setSupportActionBar(mToolbar);
         initViews();
         findViews();
         initDatas();

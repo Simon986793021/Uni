@@ -3,7 +3,6 @@ package com.sherlockkk.snail.activity;
 import android.app.Dialog;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.avos.avoscloud.AVMobilePhoneVerifyCallback;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
-import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.base.BaseActivity;
 import com.sherlockkk.snail.tools.ToolDialog;
@@ -41,11 +39,9 @@ import java.util.Calendar;
  * @created 2016/2/10.
  * @e-mail 1129574214@qq.com
  */
-public class RegisterActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static String TAG = "RegisterActivity";
     public static  String USEROBJECTID;
-    public static final String DATEPICKER_TAG = "datepicker";
-    private Toolbar toolbar;
     private ClearableEditText nickName;
     private ClearableEditText phoneNumber;
     private ClearableEditText password;
@@ -56,12 +52,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private Spinner spinner;
     private TextView select_gender;
     private TextView select_birth;
-    DatePickerDialog datePickerDialog;
     AVUser user = new AVUser();
     private String school;
     private String gender;
-    private String birthDay;
-
+    private TextView backtextView;
+    private TextView toobarTextView;
 
     @Override
     protected void setListeners() {
@@ -78,18 +73,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_register);
         final Calendar calendar = Calendar.getInstance();
 
-        datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), true);
-        if (savedInstanceState != null) {
-            DatePickerDialog dpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag(DATEPICKER_TAG);
-            if (dpd != null) {
-                dpd.setOnDateSetListener(this);
-            }
-        }
     }
 
     @Override
     protected void findViews() {
-        initToolbar();
+        backtextView= (TextView) findViewById(R.id.tv_back);
         linearLayout = (LinearLayout) findViewById(R.id.ll_registerInfo);
         nickName = (ClearableEditText) findViewById(R.id.et_nickname_register);
         phoneNumber = (ClearableEditText) findViewById(R.id.et_username_register);
@@ -107,22 +95,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spinner.setOnItemSelectedListener(this);
         select_gender = (TextView) findViewById(R.id.tv_select_gender);
         select_gender.setOnClickListener(this);
-        select_birth = (TextView) findViewById(R.id.tv_select_birth);
-        select_birth.setOnClickListener(this);
+        backtextView.setOnClickListener(this);
+
+        toobarTextView= (TextView) findViewById(R.id.tv_activity_toolbar_center);
+        toobarTextView.setText("注册");
     }
 
-    private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_register);
-        toolbar.setTitle("注册新用户");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-    }
 
 
     @Override
@@ -149,24 +127,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 });
                 new AlertDialog.Builder(this).setTitle("选择性别").setView(view).setPositiveButton("OK", null).show();
                 break;
-            case R.id.tv_select_birth:
-                datePickerDialog.setVibrate(true);
-                datePickerDialog.setYearRange(1980, 2028);
-                datePickerDialog.setCloseOnSingleTapDay(false);
-                datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
+            case R.id.tv_back:
+                finish();
                 break;
             default:
                 break;
         }
     }
 
-    /*出生日期选择*/
-    @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        int m = month + 1;//月份要加一
-        birthDay = year + "-" + m + "-" + day;
-        select_birth.setText(year + "-" + m + "-" + day);
-    }
 
     //Spinner的选择监听
 
@@ -202,12 +170,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 showShortToast(RegisterActivity.this, "请选择你的性别");
                 return;
             }
-            if (birthDay == null) {
-                showShortToast(RegisterActivity.this, "请选择你的生日,说不定会有神秘礼物呢");
-                return;
-            }
             user.put("gender", gender);
-            user.put("birthDay", birthDay);
             user.put("school", school);
             user.put("account", account);
             user.put("level", level);

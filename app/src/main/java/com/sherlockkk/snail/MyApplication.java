@@ -1,7 +1,6 @@
 package com.sherlockkk.snail;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.avos.avoscloud.AVOSCloud;
@@ -11,6 +10,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.sherlockkk.snail.model.SchoolActivity;
 import com.sherlockkk.snail.model.Secondary;
 
 
@@ -33,6 +33,7 @@ public class MyApplication extends MultiDexApplication {
         myApplication = this;
 
         //Leancloud初始化
+        AVObject.registerSubclass(SchoolActivity.class);
         AVObject.registerSubclass(Secondary.class);
         AVOSCloud.initialize(this, Constants.LEANCLOUD_ID, Constants.LEANCLOUD_KEY);
 

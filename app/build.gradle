@@ -43,7 +43,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.zhy:okhttputils:2.2.1'
-    compile project(':umeng_community_library_project')
+ //   compile project(':umeng_community_library_project')
     //分包的依赖
     compile 'com.android.support:multidex:1+'
     //PhotoPick
@@ -51,7 +51,11 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:+'
     //avoscloud-sdk 为 LeanCloud基础包
     compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
-    compile project(':datetimepicker-library')
+  //  compile project(':datetimepicker-library')
     compile files('src/main/libs/avoscloud-feedback-v3.14.3.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile files('src/main/libs/AMap3DMap_3.3.1_AMapNavi_1.8.0_20160420.jar')
+    compile files('src/main/libs/AMap_Location_V2.9.0_20160906.jar')
+    compile files('src/main/libs/AMap_2DMap_V2.9.0_20160525.jar')
+    compile files('src/main/libs/AMap_Search_V3.3.0_20160616.jar')
 }

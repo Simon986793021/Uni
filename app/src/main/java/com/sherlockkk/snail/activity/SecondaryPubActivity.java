@@ -2,9 +2,6 @@ package com.sherlockkk.snail.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,27 +12,21 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.SaveCallback;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.adapter.PhotoPickAdapter;
 import com.sherlockkk.snail.adapter.SecondaryCatgoryAdapter;
 import com.sherlockkk.snail.base.BaseActivity;
 import com.sherlockkk.snail.model.Secondary;
 import com.sherlockkk.snail.model.SecondaryCatgory;
-
 import com.sherlockkk.snail.tools.ToolDialog;
-import com.sherlockkk.snail.tools.ToolLog;
 import com.sherlockkk.snail.ui.photopicker.PhotoPickerActivity;
 import com.sherlockkk.snail.ui.photopicker.PhotoPreviewActivity;
 import com.sherlockkk.snail.ui.photopicker.SelectModel;
 import com.sherlockkk.snail.ui.photopicker.intent.PhotoPickerIntent;
 import com.sherlockkk.snail.ui.photopicker.intent.PhotoPreviewIntent;
 import com.sherlockkk.snail.utils.AVOSServiceUtil;
-
 
 import org.json.JSONArray;
 
@@ -93,8 +84,8 @@ public class SecondaryPubActivity extends BaseActivity {
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_publish_secondary);
         toolbar.setTitle("发布二手商品");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

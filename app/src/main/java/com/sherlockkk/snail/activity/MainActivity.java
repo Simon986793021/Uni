@@ -5,22 +5,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.RadioGroup;
 
 import com.avos.avoscloud.AVUser;
+import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.db.CacheDbHelper;
 import com.sherlockkk.snail.fragment.CampusFragment;
+import com.sherlockkk.snail.fragment.DiscoverFragment;
 import com.sherlockkk.snail.fragment.HomeFragment;
 import com.sherlockkk.snail.fragment.MineFragment;
-import com.sherlockkk.snail.impl.SimpleLoginImpl;
 import com.sherlockkk.snail.ui.HomeBanner;
-import com.sherlockkk.snail.fragment.DiscoverFragment;
-import com.sherlockkk.snail.R;
-import com.umeng.comm.core.sdkmanager.LoginSDKManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +27,6 @@ import java.util.List;
  * @e-mail 1129574214@qq.com
  */
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private HomeBanner mHomeBanner;
 
@@ -59,19 +54,15 @@ public class MainActivity extends AppCompatActivity {
         findViews();
         initViews();
         initFootBar();
-        useCustomLogin();
     }
 
     private void findViews() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     private void initViews() {
         setSupportActionBar(mToolbar);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.menu_name);
-        mDrawerLayout.setDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+
     }
 
     private void initFootBar() {
@@ -140,8 +131,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void useCustomLogin() {
-        // 管理器
-        LoginSDKManager.getInstance().addAndUse(new SimpleLoginImpl());
-    }
 }

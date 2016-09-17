@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawerlayout"
-    tools:context=".activity.MainActivity">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context=".activity.MainActivity"
     >
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#3dcaf9"
+        android:background="#0fd6f9"
         android:fitsSystemWindows="true"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
@@ -32,13 +28,6 @@
 
     <include layout="@layout/main_footer"/>
 
-    </LinearLayout>
 
-    <fragment
-        android:id="@+id/menu_fragment"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:name="com.sherlockkk.snail.fragment.MenuFragment" />
 
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>

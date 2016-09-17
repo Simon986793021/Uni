@@ -1,31 +1,27 @@
 package com.sherlockkk.snail.fragment;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.sherlockkk.snail.Constants;
-import com.sherlockkk.snail.activity.NewsDetailActivity;
-import com.sherlockkk.snail.adapter.NewsListAdapter;
-import com.sherlockkk.snail.model.NewsDetail;
-import com.sherlockkk.snail.model.NewsList;
-import com.sherlockkk.snail.R;
-import com.sherlockkk.snail.activity.MainActivity;
-import com.sherlockkk.snail.base.BaseFragment;
-import com.sherlockkk.snail.model.TopBannerEntity;
-import com.sherlockkk.snail.utils.HttpUtil;
-import com.sherlockkk.snail.ui.HomeBanner;
 import com.google.gson.Gson;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.sherlockkk.snail.Constants;
+import com.sherlockkk.snail.R;
+import com.sherlockkk.snail.activity.MainActivity;
+import com.sherlockkk.snail.adapter.NewsListAdapter;
+import com.sherlockkk.snail.base.BaseFragment;
+import com.sherlockkk.snail.model.NewsDetail;
+import com.sherlockkk.snail.model.NewsList;
+import com.sherlockkk.snail.model.TopBannerEntity;
+import com.sherlockkk.snail.ui.HomeBanner;
+import com.sherlockkk.snail.utils.HttpUtil;
 
 import java.util.List;
 
@@ -63,17 +59,17 @@ public class HomeFragment extends BaseFragment {
 
         newsListAdapter = new NewsListAdapter(mActivity);
         listView.setAdapter(newsListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-                NewsList.ItemsEntity.ListEntity listEntity = (NewsList.ItemsEntity.ListEntity) parent.getAdapter().getItem(position);
-                Intent intent = new Intent(mActivity, NewsDetailActivity.class);
-                intent.putExtra("entity", listEntity);
-                startActivity(intent);
-
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
+//                NewsList.ItemsEntity.ListEntity listEntity = (NewsList.ItemsEntity.ListEntity) parent.getAdapter().getItem(position);
+//                Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+//                intent.putExtra("entity", listEntity);
+//                startActivity(intent);
+//
+//            }
+//        });
 
         return view;
     }

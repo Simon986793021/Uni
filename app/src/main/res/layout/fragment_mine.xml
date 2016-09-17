@@ -18,7 +18,6 @@
             android:id="@+id/tv_mine_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="简单浪漫"
         android:textSize="20sp"
         android:gravity="center_horizontal"/>
        <RelativeLayout
@@ -30,13 +29,12 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_margin="5dp"
-               android:text="广东"
+               android:text="赣州"
                android:textSize="15sp" />
            <TextView
                android:id="@+id/tv_mine_sex"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="女"
                android:textSize="15sp"
                android:layout_margin="5dp"
                android:layout_toRightOf="@+id/tv_mine_loc" />
@@ -45,7 +43,6 @@
             android:id="@+id/tv_mine_signature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="你若安好，便是晴天"
             android:textSize="18dp"
             android:gravity="center_horizontal"
             android:layout_marginTop="3dp"/>

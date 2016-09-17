@@ -1,9 +1,6 @@
 package com.sherlockkk.snail.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +15,6 @@ import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.adapter.SimpleRecyclerCardAdapter;
 import com.sherlockkk.snail.base.BaseActivity;
 import com.sherlockkk.snail.model.Secondary;
-import com.sherlockkk.snail.utils.AVOSServiceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +67,8 @@ public class SecondaryActivity extends BaseActivity implements SimpleRecyclerCar
     private void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_secondary);
         toolbar.setTitle("校园二手");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    //    setSupportActionBar(toolbar);
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,4 +118,5 @@ public class SecondaryActivity extends BaseActivity implements SimpleRecyclerCar
     public boolean onItemLongClickListener(View v, int pos) {
         return false;
     }
+
 }
