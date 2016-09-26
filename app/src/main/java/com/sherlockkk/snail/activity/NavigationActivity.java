@@ -283,8 +283,7 @@ public class NavigationActivity extends Activity implements LocationSource,
                 Log.e("AmapError",
                         "location Error, ErrCode:" + arg0.getErrorCode()
                                 + ", errInfo:" + arg0.getErrorInfo());
-                Toast.makeText(getApplicationContext(), "定位失败",
-                        Toast.LENGTH_LONG).show();
+                Utils.showToast(NavigationActivity.this,"定位失败");
             }
         }
     }
@@ -307,8 +306,7 @@ public class NavigationActivity extends Activity implements LocationSource,
             break;
         case R.id.iv_drive:
             if (endPoint == null || startPoint == null) {
-                Toast.makeText(getApplicationContext(), "起点或终点未设置",
-                        Toast.LENGTH_SHORT).show();
+                Utils.showToast(NavigationActivity.this,"起点或终点未设置");
             } else {
                 driveImageView.setImageResource(R.drawable.route_drive_select);
                 busImageView.setImageResource(R.drawable.route_bus_normal);
@@ -323,8 +321,7 @@ public class NavigationActivity extends Activity implements LocationSource,
             break;
         case R.id.iv_walk:
             if (endPoint == null || startPoint == null) {
-                Toast.makeText(getApplicationContext(), "起点或终点未设置",
-                        Toast.LENGTH_SHORT).show();
+                Utils.showToast(NavigationActivity.this,"起点或终点未设置");
             } else {
                 driveImageView.setImageResource(R.drawable.route_drive_normal);
                 busImageView.setImageResource(R.drawable.route_bus_normal);
@@ -336,8 +333,7 @@ public class NavigationActivity extends Activity implements LocationSource,
             break;
         case R.id.iv_bus:
             if (endPoint == null || startPoint == null) {
-                Toast.makeText(getApplicationContext(), "起点或终点未设置",
-                        Toast.LENGTH_SHORT).show();
+                Utils.showToast(NavigationActivity.this,"起点或终点未设置");
             } else {
                 driveImageView.setImageResource(R.drawable.route_drive_normal);
                 busImageView.setImageResource(R.drawable.route_bus_select);

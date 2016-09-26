@@ -8,7 +8,7 @@
         android:layout_marginTop="25dp" />
 
     <LinearLayout
-        android:id="@+id/ll_circle"
+        android:id="@+id/ll_campus"
         style="@style/option_item_rl" >
 
         <ImageView
@@ -19,10 +19,86 @@
 
         <TextView
             style="@style/option_item_text"
-            android:text="校友圈" />
-
+            android:text="先知校园" />
     </LinearLayout>
-
     <View
         style="@style/h_line" />
+    <LinearLayout
+        android:id="@+id/ll_top"
+        style="@style/option_item_rl"
+        android:layout_marginTop="20dp">
+        <ImageView
+            style="@style/option_item_img"
+            android:contentDescription="@null"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@mipmap/ic_launcher"/>
+        <TextView
+            style="@style/option_item_text"
+            android:text="新闻头条" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_yule"
+        style="@style/option_item_rl"
+       >
+        <ImageView
+            style="@style/option_item_img"
+            android:contentDescription="@null"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@mipmap/ic_launcher"/>
+        <TextView
+            style="@style/option_item_text"
+            android:text="娱乐新闻" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_keji"
+        style="@style/option_item_rl"
+        android:layout_marginTop="20dp">
+        <ImageView
+            style="@style/option_item_img"
+            android:contentDescription="@null"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@mipmap/ic_launcher"/>
+        <TextView
+            style="@style/option_item_text"
+            android:text="科技新闻" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_tiyu"
+        style="@style/option_item_rl"
+       >
+        <ImageView
+            style="@style/option_item_img"
+            android:contentDescription="@null"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@mipmap/ic_launcher"/>
+        <TextView
+            style="@style/option_item_text"
+            android:text="体育新闻" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_guoji"
+        style="@style/option_item_rl"
+        android:layout_marginTop="20dp">
+        <ImageView
+            style="@style/option_item_img"
+            android:contentDescription="@null"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@mipmap/ic_launcher"/>
+        <TextView
+            style="@style/option_item_text"
+            android:text="国际新闻" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_shishang"
+        style="@style/option_item_rl"
+        >
+        <ImageView
+            style="@style/option_item_img"
+            android:contentDescription="@null"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@mipmap/ic_launcher"/>
+        <TextView
+            style="@style/option_item_text"
+            android:text="时尚新闻" />
+    </LinearLayout>
 </LinearLayout>

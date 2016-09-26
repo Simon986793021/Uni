@@ -1,14 +1,17 @@
 package com.sherlockkk.snail.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.adapter.ActivityListAdapter;
@@ -21,7 +24,7 @@ import java.util.List;
  * @Create By 2016/9/9
  * @E-mail  986793021@qq.com
  */
-public class SchoolActivityActivity extends Activity implements View.OnClickListener{
+public class SchoolActivityActivity extends Activity implements View.OnClickListener,AdapterView.OnItemClickListener{
     private TextView backTextView;
     private TextView TitleTextView;
     private ListView listView;
@@ -36,6 +39,7 @@ public class SchoolActivityActivity extends Activity implements View.OnClickList
         swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.srl_activity);
         TitleTextView.setText("校园活动");
         backTextView.setOnClickListener(this);
+        listView.setOnItemClickListener(this);
         loadData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -56,6 +60,7 @@ public class SchoolActivityActivity extends Activity implements View.OnClickList
                 @Override
                 public void done(List<SchoolActivity> list, AVException e) {
                     if (list!=null) {
+
                         swipeRefreshLayout.setRefreshing(false);
                         ActivityListAdapter activityListAdapter = new ActivityListAdapter(SchoolActivityActivity.this);
                         activityListAdapter.addList(list);
@@ -73,6 +78,34 @@ public class SchoolActivityActivity extends Activity implements View.OnClickList
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+        AVUser currentUser=AVUser.getCurrentUser();
+
+        if (LoginActivity.isLogin==true||currentUser!=null) {
+            AVQuery avQuery=AVQuery.getQuery(SchoolActivity.class);
+            avQuery.orderByDescending("createdAt");
+
+            avQuery.findInBackground(new FindCallback<SchoolActivity>() {
+                @Override
+                public void done(List <SchoolActivity>list, AVException e) {
+                    SchoolActivity schoolActivity=list.get(position);
+                    Intent intent=new Intent(SchoolActivityActivity.this,ActivityDetailActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putParcelable("schoolactivity",schoolActivity);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
+            });
+        }
+        else{
+            Intent intent=new Intent(SchoolActivityActivity.this,LoginActivity.class);
+            startActivity(intent);
         }
     }
 }

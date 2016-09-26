@@ -1,5 +1,7 @@
 package com.sherlockkk.snail.model;
 
+import android.os.Parcelable;
+
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 
@@ -7,7 +9,7 @@ import com.avos.avoscloud.AVObject;
  * Created by Administrator on 2016/9/10.
  */
 @AVClassName("SchoolActivity")
-public class SchoolActivity extends AVObject {
+public class SchoolActivity extends AVObject implements Parcelable{
     public static final Creator CREATOR = AVObjectCreator.instance;
     private String activityTitle; // 活动标题
     private String activityDescription; // 活动描述
@@ -17,8 +19,35 @@ public class SchoolActivity extends AVObject {
     private String activityPlace; // 活动地点
     private String activityDetail;// 活动详情
     private String addpicBase64;// 添加图片的Base64编码
+    private String signupUsername;
+    private String signupPhonenum;
+    private String signupTime;
 
     public SchoolActivity() {
+    }
+    public String getSignupUsername()
+    {
+        return  getString("signupUsername");
+    }
+
+    public void setSignupUsername(String signupUsername) {
+        put("signupUsername",signupUsername);
+    }
+
+    public String getSignupTime() {
+        return getString("signupTime");
+    }
+
+    public void setSignupTime(String signupTime) {
+        put("signupTime",signupTime);
+    }
+
+    public String getSignupPhonenum() {
+       return getString("signupPhonenum");
+    }
+
+    public void setSignupPhonenum(String signupPhonenum) {
+        put("signupPhonenum",signupPhonenum);
     }
 
     public String getPic() {

@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.adapter.RecomandAdapter;
@@ -24,6 +23,7 @@ import com.sherlockkk.snail.model.PositionEntity;
 import com.sherlockkk.snail.task.InputTipTask;
 import com.sherlockkk.snail.task.PoiSearchTask;
 import com.sherlockkk.snail.task.RouteTask;
+import com.sherlockkk.snail.utils.Utils;
 
 /**
  * @author Simon
@@ -127,8 +127,7 @@ public class DestinationActivity extends Activity implements OnClickListener,
         } else {
             routeTask = RouteTask.getInstance(getApplicationContext());
             routeTask.setEndPoint(entity);
-            Toast.makeText(getApplicationContext(), entity.address,
-                    Toast.LENGTH_SHORT).show();
+            Utils.showToast(DestinationActivity.this,entity.address);
             editText.setText(entity.address);
 
         }

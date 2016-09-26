@@ -3,6 +3,13 @@
  */
 package com.sherlockkk.snail.utils;
 
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.BusPath;
@@ -17,6 +24,24 @@ import java.util.List;
  * @author Simon
  */
 public class Utils {
+
+        /*
+        自定义Toast
+         */
+    public static void showToast(Context mcontext,String msg)
+    {
+        LayoutInflater inflater = LayoutInflater.from(mcontext);
+        View layout = inflater.inflate(R.layout.toast_content,null,false);
+        TextView text = (TextView) layout.findViewById(R.id.tv_toast_content);
+        text.setText(msg);
+        Toast toast = new Toast(mcontext);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
+
+
     /**
      * 把LatLonPoint对象转化为LatLon对象
      */

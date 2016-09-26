@@ -31,8 +31,9 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.GetCallback;
 import com.sherlockkk.snail.R;
-import com.sherlockkk.snail.activity.FeedBackActivity;
+import com.sherlockkk.snail.activity.AboutUsActivity;
 import com.sherlockkk.snail.activity.LoginActivity;
+import com.sherlockkk.snail.activity.MyActivityActivity;
 import com.sherlockkk.snail.activity.MyInfoActivity;
 import com.sherlockkk.snail.base.BaseFragment;
 import com.sherlockkk.snail.tools.ToolLog;
@@ -134,14 +135,18 @@ public class MineFragment extends BaseFragment  {
                             startActivity(intent);
                             break;
                         case 1:
+                            Intent MyActivityintent=new Intent(mActivity,MyActivityActivity.class);
+                            startActivity(MyActivityintent);
                             break;
                         case 2:
                             break;
                         case 3:
+                            Intent aboutusIntent=new Intent(mActivity,AboutUsActivity.class);
+                            startActivity(aboutusIntent);
                             break;
                         case 4:
-                            Intent feedbackIntent=new Intent(mActivity,FeedBackActivity.class);
-                            startActivity(feedbackIntent);
+//                            Intent feedbackIntent=new Intent(mActivity,FeedBackActivity.class);
+//                            startActivity(feedbackIntent);
                             break;
                         case 5:
                             quitDialog();
@@ -279,7 +284,7 @@ public class MineFragment extends BaseFragment  {
 
         map =new HashMap<>();
         map.put("img_left",R.drawable.contact);
-        map.put("options_list","联系我们");
+        map.put("options_list","意见反馈");
         map.put("img_right",R.drawable.go);
         list.add(map);
 

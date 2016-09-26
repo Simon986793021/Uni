@@ -8,5 +8,13 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="200dp"></com.sherlockkk.snail.ui.HomeBanner>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="校园段子"
+        android:textColor="#11cd6e"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:paddingLeft="15dp"/>
 </LinearLayout>

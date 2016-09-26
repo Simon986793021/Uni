@@ -291,10 +291,10 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
         intent.setDataAndType(uri, "image/*");
 
         intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
+        intent.putExtra("aspectY", 1);  //裁剪框的比例，1：1
 
         intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
+        intent.putExtra("outputY", 150);//裁剪后输出图片的尺寸大小
         intent.putExtra("crop", "true");
         intent.putExtra("scale", true);
         intent.putExtra("scaleUpIfNeeded", true);
@@ -363,7 +363,7 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
                                             public void done(Integer integer) {
                                                 if (integer==100)
                                                 {
-                                                    Toast.makeText(MyInfoActivity.this,"上传了100%",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(MyInfoActivity.this,"成功上传",Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         }

@@ -64,11 +64,21 @@ public class ActivityListAdapter extends BaseAdapter {
         else {
             viewHolder= (ViewHolder) convertView.getTag();
         }
-        viewHolder.titleTextView.setText(list.get(position).getActivityTitle().toString());
-        viewHolder.starttimeTextView.setText("活动时间："+list.get(position).getActivityTime().toString());
-        viewHolder.descriptionTextView.setText(list.get(position).getActivityDescription().toString());
-        viewHolder.personacountTextView.setText("报名人数："+list.get(position).getActivityPersonAcount().toString());
-        viewHolder.deadtimeTextView.setText("报名截止："+list.get(position).getDeadTime().toString());
+        viewHolder.titleTextView.setText(list.get(position).getActivityTitle().trim().toString());
+        viewHolder.starttimeTextView.setText("活动时间："+list.get(position).getActivityTime().trim().toString());
+        int acount;
+        if (list.get(position).getList("phonenum")!=null)
+        {
+             acount= list.get(position).getList("phonenum").size();
+        }
+        else
+        {
+            acount=0;
+        }
+
+        viewHolder.descriptionTextView.setText(list.get(position).getActivityDescription().trim().toString());
+        viewHolder.personacountTextView.setText("报名人数："+acount+""+"/"+list.get(position).getActivityPersonAcount().trim().toString());
+        viewHolder.deadtimeTextView.setText("报名截止："+list.get(position).getDeadTime().trim().toString());
         String PicBase64=list.get(position).getPic();
         byte[] bytes= Base64.decode(PicBase64.getBytes(),1);
         Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
@@ -76,7 +86,7 @@ public class ActivityListAdapter extends BaseAdapter {
 
         return convertView;
     }
-    public class ViewHolder{
+    private  class ViewHolder{
         TextView titleTextView;
         TextView descriptionTextView;
         TextView personacountTextView;

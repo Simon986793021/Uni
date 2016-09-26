@@ -20,8 +20,8 @@ public class FeedBackActivity extends Activity{
         setContentView(R.layout.activity_feedback);
         toolbarText= (TextView) findViewById(R.id.tv_activity_toolbar_center);
         toolbarText.setText("用户反馈");
-        FeedbackAgent feedbackAgent=new FeedbackAgent(getApplicationContext());
+        FeedbackAgent feedbackAgent=new FeedbackAgent(FeedBackActivity.this);
         feedbackAgent.startDefaultThreadActivity();
-        feedbackAgent.sync();
+       // feedbackAgent.sync();
     }
 }

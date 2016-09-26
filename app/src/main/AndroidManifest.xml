@@ -47,6 +47,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
+         android:hardwareAccelerated="true"
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -85,43 +86,6 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SecondaryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SecondaryPubActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
-            android:name=".activity.SecondaryDetailActivity"
-            android:screenOrientation="portrait" />
-
-        <!-- PhotoPick activity组件 start -->
-        <activity
-            android:name=".ui.photopicker.PhotoPickerActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/PhotoPickerTheme" />
-        <activity
-            android:name=".ui.photopicker.PhotoPreviewActivity"
-            android:theme="@style/PhotoPickerTheme" />
-        <!-- PhotoPick activity组件 end -->
-
-
-        <!-- 微博版activity组件 start -->
-
-
-        <!-- 发现的Activity -->
-
-
-
-
-
-
-
-
-
-
-        <!-- 图片选择相关 -->
         <activity android:name=".activity.MyInfoActivity"></activity>
         <activity android:name=".activity.FeedBackActivity"></activity>
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity"></activity>
@@ -136,6 +100,15 @@
         <activity android:name=".activity.BusRouteDetailActivity"></activity>
         <activity android:name=".activity.DriveRouteDetailActivity"></activity>
         <activity android:name=".activity.WalkRouteDetailActivity"></activity>
+        <activity android:name=".activity.ActivityDetailActivity"></activity>
+        <activity android:name=".activity.MyActivityActivity"></activity>
+        <activity android:name=".activity.AboutUsActivity"></activity>
+        <activity android:name=".activity.TopNewsActivity"></activity>
+        <activity android:name=".activity.EntertainmentNewsActivity"></activity>
+        <activity android:name=".activity.ScienceNewsActivity"></activity>
+        <activity android:name=".activity.SportNewsActivity"></activity>
+        <activity android:name=".activity.InternationalNewsActivity"></activity>
+        <activity android:name=".activity.FashionNewsActivity"></activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

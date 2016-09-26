@@ -36,7 +36,7 @@ public class MyApplication extends MultiDexApplication {
         AVObject.registerSubclass(SchoolActivity.class);
         AVObject.registerSubclass(Secondary.class);
         AVOSCloud.initialize(this, Constants.LEANCLOUD_ID, Constants.LEANCLOUD_KEY);
-
+        AVOSCloud.setDebugLogEnabled(true);
         //uil初始化
         initImageLoader(this);
 

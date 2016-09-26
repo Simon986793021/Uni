@@ -23,6 +23,7 @@ import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.sherlockkk.snail.R;
+import com.sherlockkk.snail.utils.Utils;
 
 /**
  * @author Simon
@@ -126,8 +127,7 @@ public  class MapActivity extends Activity implements LocationSource,
                             + "" + arg0.getCity() + "" + arg0.getDistrict()
                             + "" + arg0.getStreet() + "" + arg0.getStreetNum());
                     // 将地址显示出来
-                    Toast.makeText(getApplicationContext(), buffer.toString(),
-                            Toast.LENGTH_LONG).show();
+                    Utils.showToast(MapActivity.this,buffer.toString());
                     ismove = false;
                 }
 

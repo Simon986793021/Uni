@@ -21,17 +21,17 @@
             android:id="@+id/foot_bar_campus"
             style="@style/main_footbar_radio"
             android:text="@string/footbar_text_campus"
-            android:drawableTop="@drawable/footbar_user_bg" />
+            android:drawableTop="@drawable/footbar_user_bg1" />
         <RadioButton
             android:id="@+id/foot_bar_discover"
             style="@style/main_footbar_radio"
             android:text="@string/footbar_text_discover"
-            android:drawableTop="@drawable/footbar_user_bg"/>
+            android:drawableTop="@drawable/footbar_user_bg2"/>
         <RadioButton
             android:id="@+id/foot_bar_mime"
             style="@style/main_footbar_radio"
             android:text="@string/footbar_text_mime"
-            android:drawableTop="@drawable/footbar_user_bg"/>
+            android:drawableTop="@drawable/footbar_user_bg3"/>
     </RadioGroup>
 
 </LinearLayout>

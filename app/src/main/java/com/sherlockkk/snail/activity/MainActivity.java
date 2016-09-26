@@ -11,7 +11,6 @@ import android.widget.RadioGroup;
 
 import com.avos.avoscloud.AVUser;
 import com.sherlockkk.snail.R;
-import com.sherlockkk.snail.db.CacheDbHelper;
 import com.sherlockkk.snail.fragment.CampusFragment;
 import com.sherlockkk.snail.fragment.DiscoverFragment;
 import com.sherlockkk.snail.fragment.HomeFragment;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragmentList = Arrays.asList(homeFragment, campusFragment, discoverFragment, mimeFragment);
 
     private FragmentManager fragmentManager;
-    private CacheDbHelper cacheDbHelper;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -49,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cacheDbHelper = new CacheDbHelper(this,1);
         fragmentManager = getSupportFragmentManager();
         findViews();
         initViews();
         initFootBar();
+//        curCursor=1;
+
     }
 
     private void findViews() {
@@ -72,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.foot_bar_home:
-                        curCursor = 0;
+                        curCursor = 1;
                         break;
                     case R.id.foot_bar_campus:
-                        curCursor = 1;
+                        curCursor = 0;
                         break;
                     case R.id.foot_bar_discover:
                         curCursor = 2;
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        addFragmentToStack(0);
+        addFragmentToStack(1);
     }
 
     private void addFragmentToStack(int cursor) {
@@ -118,9 +117,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-    public CacheDbHelper getCacheDbHelper(){
-        return cacheDbHelper;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

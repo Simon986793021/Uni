@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.sherlockkk.snail.R;
+import com.sherlockkk.snail.activity.ActivityDetailActivity;
 import com.sherlockkk.snail.activity.LifeActivity;
+import com.sherlockkk.snail.activity.LoginActivity;
 import com.sherlockkk.snail.activity.SchoolActivityActivity;
 import com.sherlockkk.snail.adapter.ActivityListAdapter;
 import com.sherlockkk.snail.base.BaseFragment;
@@ -26,7 +30,7 @@ import java.util.List;
  * @created 2016/9/1.
  * @e-mail 986793021@qq.com
  */
-public class CampusFragment extends BaseFragment implements View.OnClickListener{
+public class CampusFragment extends BaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener{
     private HomeBanner banner;
     private TextView learningTextView;
     private TextView activityTextView;
@@ -42,7 +46,7 @@ public class CampusFragment extends BaseFragment implements View.OnClickListener
         lifeTextView= (TextView) topview.findViewById(R.id.tv_life);
         listView= (ListView) view.findViewById(R.id.lv_activity_campus);
         listView.addHeaderView(topview);
-
+        listView.setOnItemClickListener(this);
 
         learningTextView.setOnClickListener(this);
         activityTextView.setOnClickListener(this);
@@ -55,8 +59,9 @@ public class CampusFragment extends BaseFragment implements View.OnClickListener
 
     private void initBanner(View view) {
         banner = (HomeBanner) view.findViewById(R.id.banner_campus);
-        String[] titles = new String[]{"江西理工与牛津大学达成合作办学", "公安部打黑除恶", "纸老虎纸老虎纸老虎", "郊区王者吊打一区螃蟹！"};
-        banner.setImagesUrl(new String[]{"http://img04.muzhiwan.com/2015/06/16/upload_557fd293326f5.jpg", "http://img02.muzhiwan.com/2015/06/11/upload_557903dc0f165.jpg", "http://img04.muzhiwan.com/2015/06/05/upload_5571659957d90.png", "http://img03.muzhiwan.com/2015/06/16/upload_557fd2a8da7a3.jpg"}, titles);
+        String[] titles = new String[]{"喜迎国庆，庆祖国华诞", "科技改变未来", "通往未来的道路从来不曾黑暗", "致我们终将逝去的青春"};
+        //homeBanner.setImagesUrl(new String[]{"http://img04.muzhiwan.com/2015/06/16/upload_557fd293326f5.jpg", "http://img02.muzhiwan.com/2015/06/11/upload_557903dc0f165.jpg", "http://img04.muzhiwan.com/2015/06/05/upload_5571659957d90.png", "http://img03.muzhiwan.com/2015/06/16/upload_557fd2a8da7a3.jpg"}, titles);
+        banner.setImagesRes(new int[]{R.drawable.home_banner01,R.drawable.home_banner02,R.drawable.home_banner03,R.drawable.home_banner04});
     }
     private void loadData()
     {
@@ -91,5 +96,32 @@ public class CampusFragment extends BaseFragment implements View.OnClickListener
                 default:
                     break;
             }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+        AVUser avUser=AVUser.getCurrentUser();
+        if (LoginActivity.isLogin==true||avUser!=null)
+        {
+            AVQuery avQuery=AVQuery.getQuery(SchoolActivity.class);
+            avQuery.orderByDescending("createdAt");
+            avQuery.findInBackground(new FindCallback<SchoolActivity>() {
+                @Override
+                public void done(List <SchoolActivity>list, AVException e) {
+                    SchoolActivity schoolActivity=list.get(position-1);//需要减1
+                    Intent intent=new Intent(mActivity,ActivityDetailActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putParcelable("schoolactivity",schoolActivity);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
+            });
+        }
+        else {
+            Intent intent=new Intent(mActivity,LoginActivity.class);
+            startActivity(intent);
+        }
+
     }
 }
