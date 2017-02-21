@@ -26,6 +26,12 @@ import java.util.List;
 public class NewsListAsyncTask extends AsyncTask<String,Void,List<NewsList>>{
     private ListView listView;
     private Context context;
+    public  static  List<NewsList> list;
+    public NewsListAsyncTask()
+    {
+
+    }
+
     public NewsListAsyncTask (ListView listView,Context context)
     {
         this.listView=listView;
@@ -33,7 +39,7 @@ public class NewsListAsyncTask extends AsyncTask<String,Void,List<NewsList>>{
     }
     @Override
     protected List<NewsList> doInBackground(String... params) {
-        List<NewsList> list=null;
+
         list=getJsonData(params[0]);
         return list;
     }
@@ -64,8 +70,8 @@ public class NewsListAsyncTask extends AsyncTask<String,Void,List<NewsList>>{
             for (int i = 0; i < jsonarray.length(); i++) {
                 jsonobject = jsonarray.getJSONObject(i);
                 newslist = new NewsList();
+                newslist.realtype=jsonobject.getString("realtype");
                 newslist.url = jsonobject.getString("url");
-               // newslist.realtype=jsonobject.getString("realtype");
                 newslist.picture = jsonobject.getString("thumbnail_pic_s");
                 newslist.time = jsonobject.getString("date");
                 newslist.title = jsonobject.getString("title");
@@ -105,5 +111,6 @@ public class NewsListAsyncTask extends AsyncTask<String,Void,List<NewsList>>{
         super.onPostExecute(newsLists);
         NewsListAdapter adapter=new NewsListAdapter(context,newsLists);
         listView.setAdapter(adapter);
+        list=newsLists;
     }
 }

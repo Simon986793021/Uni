@@ -16,7 +16,6 @@ import com.avos.avoscloud.FindCallback;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.adapter.MyActivityListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +25,6 @@ public class MyActivityActivity extends Activity implements View.OnClickListener
     private TextView backTextView;
     private TextView toolbarTextView;
     private ListView listView;
-    private List<String> objectidlist=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

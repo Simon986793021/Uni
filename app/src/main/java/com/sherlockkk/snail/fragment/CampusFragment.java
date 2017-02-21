@@ -17,11 +17,13 @@ import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.activity.ActivityDetailActivity;
 import com.sherlockkk.snail.activity.LifeActivity;
 import com.sherlockkk.snail.activity.LoginActivity;
+import com.sherlockkk.snail.activity.PartTimeActivity;
 import com.sherlockkk.snail.activity.SchoolActivityActivity;
 import com.sherlockkk.snail.adapter.ActivityListAdapter;
 import com.sherlockkk.snail.base.BaseFragment;
 import com.sherlockkk.snail.model.SchoolActivity;
 import com.sherlockkk.snail.ui.HomeBanner;
+import com.sherlockkk.snail.utils.Utils;
 
 import java.util.List;
 
@@ -38,29 +40,34 @@ public class CampusFragment extends BaseFragment implements View.OnClickListener
     private ListView listView;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campus, container, false);
-        View topview=inflater.inflate(R.layout.fragment_campus_top,null,false);
-        initBanner(topview);
-        learningTextView= (TextView) topview.findViewById(R.id.tv_learning);
-        activityTextView= (TextView) topview.findViewById(R.id.tv_activity);
-        lifeTextView= (TextView) topview.findViewById(R.id.tv_life);
-        listView= (ListView) view.findViewById(R.id.lv_activity_campus);
-        listView.addHeaderView(topview);
-        listView.setOnItemClickListener(this);
+        if (Utils.isNetworkAvailable(mActivity)==false)
+        {
+            View view=inflater.inflate(R.layout.nonetwork,null,false);
+            return view;
+        }
+        else
+        {
+            View view = inflater.inflate(R.layout.fragment_campus, container, false);
+            View topview=inflater.inflate(R.layout.fragment_campus_top,null,false);
+            initBanner(topview);
+            learningTextView= (TextView) topview.findViewById(R.id.tv_part_time_job);
+            activityTextView= (TextView) topview.findViewById(R.id.tv_activity);
+            lifeTextView= (TextView) topview.findViewById(R.id.tv_life);
+            listView= (ListView) view.findViewById(R.id.lv_activity_campus);
+            listView.addHeaderView(topview);
+            listView.setOnItemClickListener(this);
+            learningTextView.setOnClickListener(this);
+            activityTextView.setOnClickListener(this);
+            lifeTextView.setOnClickListener(this);
+            loadData();
+            return view;
+        }
 
-        learningTextView.setOnClickListener(this);
-        activityTextView.setOnClickListener(this);
-        lifeTextView.setOnClickListener(this);
-        loadData();
-
-        return view;
     }
 
 
     private void initBanner(View view) {
         banner = (HomeBanner) view.findViewById(R.id.banner_campus);
-        String[] titles = new String[]{"喜迎国庆，庆祖国华诞", "科技改变未来", "通往未来的道路从来不曾黑暗", "致我们终将逝去的青春"};
-        //homeBanner.setImagesUrl(new String[]{"http://img04.muzhiwan.com/2015/06/16/upload_557fd293326f5.jpg", "http://img02.muzhiwan.com/2015/06/11/upload_557903dc0f165.jpg", "http://img04.muzhiwan.com/2015/06/05/upload_5571659957d90.png", "http://img03.muzhiwan.com/2015/06/16/upload_557fd2a8da7a3.jpg"}, titles);
         banner.setImagesRes(new int[]{R.drawable.home_banner01,R.drawable.home_banner02,R.drawable.home_banner03,R.drawable.home_banner04});
     }
     private void loadData()
@@ -82,46 +89,56 @@ public class CampusFragment extends BaseFragment implements View.OnClickListener
     }
     @Override
     public void onClick(View v) {
-            switch (v.getId()){
+        if (Utils.isNetworkAvailable(mActivity)) {
+            switch (v.getId()) {
                 case R.id.tv_activity:
-                    Intent intent=new Intent(mActivity,SchoolActivityActivity.class);
+                    Intent intent = new Intent(mActivity, SchoolActivityActivity.class);
                     startActivity(intent);
                     break;
-                case R.id.tv_learning:
+                case R.id.tv_part_time_job:
+                    Intent parttimeintent = new Intent(mActivity, PartTimeActivity.class);
+                    startActivity(parttimeintent);
                     break;
                 case R.id.tv_life:
-                    Intent lifeintent=new Intent(mActivity,LifeActivity.class);
+                    Intent lifeintent = new Intent(mActivity, LifeActivity.class);
                     startActivity(lifeintent);
                     break;
                 default:
                     break;
             }
+        }
+        else {
+            Utils.showNoNetWorkToast(mActivity);
+        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        AVUser avUser=AVUser.getCurrentUser();
-        if (LoginActivity.isLogin==true||avUser!=null)
-        {
-            AVQuery avQuery=AVQuery.getQuery(SchoolActivity.class);
-            avQuery.orderByDescending("createdAt");
-            avQuery.findInBackground(new FindCallback<SchoolActivity>() {
-                @Override
-                public void done(List <SchoolActivity>list, AVException e) {
-                    SchoolActivity schoolActivity=list.get(position-1);//需要减1
-                    Intent intent=new Intent(mActivity,ActivityDetailActivity.class);
-                    Bundle bundle=new Bundle();
-                    bundle.putParcelable("schoolactivity",schoolActivity);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
+       if (Utils.isNetworkAvailable(mActivity)) {
+           AVUser avUser = AVUser.getCurrentUser();
+           if (LoginActivity.isLogin == true || avUser != null) {
+               AVQuery avQuery = AVQuery.getQuery(SchoolActivity.class);
+               avQuery.orderByDescending("createdAt");
+               avQuery.findInBackground(new FindCallback<SchoolActivity>() {
+                   @Override
+                   public void done(List<SchoolActivity> list, AVException e) {
+                       SchoolActivity schoolActivity = list.get(position - 1);//需要减1
+                       Intent intent = new Intent(mActivity, ActivityDetailActivity.class);
+                       Bundle bundle = new Bundle();
+                       bundle.putParcelable("schoolactivity", schoolActivity);
+                       intent.putExtras(bundle);
+                       startActivity(intent);
+                   }
 
-            });
-        }
+               });
+           } else {
+               Intent intent = new Intent(mActivity, LoginActivity.class);
+               startActivity(intent);
+           }
+
+       }
         else {
-            Intent intent=new Intent(mActivity,LoginActivity.class);
-            startActivity(intent);
-        }
-
+           Utils.showNoNetWorkToast(mActivity);
+       }
     }
 }

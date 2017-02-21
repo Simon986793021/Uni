@@ -1,7 +1,6 @@
 package com.sherlockkk.snail.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.model.NewsList;
-import com.sherlockkk.snail.utils.ImageLoader;
 
 import java.util.List;
 
@@ -61,9 +62,16 @@ public class NewsListAdapter extends BaseAdapter {
         viewHolder.timetextView.setText(list.get(position).time);
         viewHolder.realtypeTextView.setText(list.get(position).realtype);
         String url=list.get(position).picture;
-        Log.i("SimonYan",url);
-        new ImageLoader()
-                .showImageByAsyncTask(viewHolder.imageView, url);
+        DisplayImageOptions options=new DisplayImageOptions.Builder()
+               // .showStubImage(R.mipmap.ic_launcher)          // 设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.mipmap.ic_launcher)  // 设置图片Uri为空或是错误的时候显示的图片
+                //.showImageOnFail(R.mipmap.ic_launcher)       // 设置图片加载或解码过程中发生错误显示的图片
+                .cacheInMemory(true)                        // 设置下载的图片是否缓存在内存中
+                .cacheOnDisc(true)                          // 设置下载的图片是否缓存在SD卡中
+                .build();                                   // 创建配置过得DisplayImageOption对象
+    //    ImageLoader.getInstance().displayImage(url,viewHolder.imageView,options);
+        ImageLoader.getInstance().displayImage
+                (url,new ImageViewAware(viewHolder.imageView,false),options);//解决图片重复加载问题
         return convertView;
     }
     private class ViewHolder {

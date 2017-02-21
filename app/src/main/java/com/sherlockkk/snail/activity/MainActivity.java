@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         initFootBar();
 //        curCursor=1;
-
     }
 
     private void findViews() {

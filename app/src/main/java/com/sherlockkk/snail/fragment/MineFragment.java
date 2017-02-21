@@ -35,9 +35,12 @@ import com.sherlockkk.snail.activity.AboutUsActivity;
 import com.sherlockkk.snail.activity.LoginActivity;
 import com.sherlockkk.snail.activity.MyActivityActivity;
 import com.sherlockkk.snail.activity.MyInfoActivity;
+import com.sherlockkk.snail.activity.MyPartTimeJobActivity;
+import com.sherlockkk.snail.activity.MySupportActivity;
 import com.sherlockkk.snail.base.BaseFragment;
 import com.sherlockkk.snail.tools.ToolLog;
 import com.sherlockkk.snail.utils.CacheUtils;
+import com.sherlockkk.snail.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,9 +63,9 @@ import cz.msebera.android.httpclient.util.EntityUtils;
 import static com.sherlockkk.snail.R.id.tv_logout;
 
 /**
- * @author SongJian
- * @created 2016/1/18.
- * @e-mail 1129574214@qq.com
+ * @author Simon
+ * @created 2016/8/18.
+ * @e-mail 986793021@qq.com
  */
 public class MineFragment extends BaseFragment  {
     private final String TAG = "MineFragment";
@@ -85,120 +88,139 @@ public class MineFragment extends BaseFragment  {
 
     @Override
     protected View initView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mine, container, false);
-        listView = (ListView) view.findViewById(R.id.lv_mine_options);
-        imageView_userIcon = (ImageView) view.findViewById(R.id.iv_mine_user_icon);
-        textView_nickName = (TextView) view.findViewById(R.id.tv_mine_nickname);
-        textView_loc = (TextView) view.findViewById(R.id.tv_mine_loc);
-        textView_sex = (TextView) view.findViewById(R.id.tv_mine_sex);
-        textView_signature = (TextView) view.findViewById(R.id.tv_mine_signature);
-
-        SharedPreferences sharedPreferences=mActivity.getSharedPreferences("headPic",Activity.MODE_PRIVATE);
-        String headPic=sharedPreferences.getString("headPic","");
-        Bitmap bitmap=null;
-        if (headPic!="") {
-            byte[] bytes = Base64.decode(headPic.getBytes(),1);
-            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        if (Utils.isNetworkAvailable(mActivity)==false)
+        {
+            View view=inflater.inflate(R.layout.nonetwork,null,false);
+            return view;
         }
-         else {
-            AVQuery<AVObject> avQuery=new AVQuery<>("_User");
-            avQuery.getInBackground(AVUser.getCurrentUser().getObjectId(), new GetCallback<AVObject>() {
-                @Override
-                public void done(AVObject avObject, AVException e) {
-                    headPicUrl=avObject.getString("headPicUrl");
-                    if (headPicUrl!=null)
-                    {
-                        HeadPicAsyncTask headPicAsyncTask=new HeadPicAsyncTask();
-                        headPicAsyncTask.execute(headPicUrl);
+      else {
+            View view = inflater.inflate(R.layout.fragment_mine, container, false);
+            listView = (ListView) view.findViewById(R.id.lv_mine_options);
+            imageView_userIcon = (ImageView) view.findViewById(R.id.iv_mine_user_icon);
+            textView_nickName = (TextView) view.findViewById(R.id.tv_mine_nickname);
+            textView_loc = (TextView) view.findViewById(R.id.tv_mine_loc);
+            textView_sex = (TextView) view.findViewById(R.id.tv_mine_sex);
+            textView_signature = (TextView) view.findViewById(R.id.tv_mine_signature);
+
+            SharedPreferences sharedPreferences=mActivity.getSharedPreferences("headPic",Activity.MODE_PRIVATE);
+            String headPic=sharedPreferences.getString("headPic","");
+            Bitmap bitmap=null;
+            if (headPic!="") {
+                byte[] bytes = Base64.decode(headPic.getBytes(),1);
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            }
+            else {
+                AVQuery<AVObject> avQuery=new AVQuery<>("_User");
+                avQuery.getInBackground(AVUser.getCurrentUser().getObjectId(), new GetCallback<AVObject>() {
+                    @Override
+                    public void done(AVObject avObject, AVException e) {
+                        headPicUrl=avObject.getString("headPicUrl");
+                        if (headPicUrl!=null)
+                        {
+                            HeadPicAsyncTask headPicAsyncTask=new HeadPicAsyncTask();
+                            headPicAsyncTask.execute(headPicUrl);
+                        }
                     }
+                });
+
+
+            }
+            imageView_userIcon.setImageBitmap(bitmap);
+
+
+            setListener();
+
+            init();
+            mineListAdapter = new SimpleAdapter(mActivity, getData(), R.layout.listview_mine, options, ids);
+
+            listView.setAdapter(mineListAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (Utils.isNetworkAvailable(mActivity)) {
+
+                        switch (position) {
+                            case 0:
+                                Intent intent = new Intent(mActivity, MyInfoActivity.class);
+                                startActivity(intent);
+                                break;
+                            case 1:
+                                Intent MyActivityintent = new Intent(mActivity, MyActivityActivity.class);
+                                startActivity(MyActivityintent);
+                                break;
+                            case 2:
+                                Intent parttimejobintent = new Intent(mActivity, MyPartTimeJobActivity.class);
+                                startActivity(parttimejobintent);
+                                break;
+                            case 3:
+                                Intent mysupport = new Intent(mActivity, MySupportActivity.class);
+                                startActivity(mysupport);
+                                break;
+                            case 4:
+                                Intent aboutusIntent = new Intent(mActivity, AboutUsActivity.class);
+                                startActivity(aboutusIntent);
+                                break;
+                            case 5:
+//                            Intent feedbackIntent=new Intent(mActivity,FeedBackActivity.class);
+//                            startActivity(feedbackIntent);
+                                Utils.showToast(mActivity, "将在第二版中重磅推出，敬请期待");
+                                break;
+                            case 6:
+                                quitDialog();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else {
+                        Utils.showToast(mActivity,"请检查是否有网络");
+                    }
+                }
+                /*
+                退出登录  对话框
+                 */
+                private void quitDialog() {
+                    final AlertDialog quitDialog=new AlertDialog.Builder(mActivity).create();
+                    View view=inflater.inflate(R.layout.logout,null,false);
+                    quitDialog.show();
+                /*
+                 *  直接从xml设置dialog不能铺满整个宽度 ，通过以下代码设置
+                 */
+                    Window window=quitDialog.getWindow();
+                    window.getDecorView().setPadding(0,0,0,0);
+                    WindowManager.LayoutParams layoutParams=window.getAttributes();
+                    layoutParams.width=WindowManager.LayoutParams.FILL_PARENT;
+                    window.setAttributes(layoutParams);
+
+                    quitDialog.setContentView(view);
+                    quitDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+                    TextView logoutTextView= (TextView) view.findViewById(tv_logout);
+                    TextView cancelTextView= (TextView) view.findViewById(R.id.tv_cancel);
+
+                    logoutTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AVUser.logOut();
+                            AVUser currentUser=AVUser.getCurrentUser();
+                            Intent intent=new Intent(mActivity, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    cancelTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            quitDialog.cancel();
+                        }
+                    });
+
                 }
             });
 
 
+            return view;
         }
-        imageView_userIcon.setImageBitmap(bitmap);
-
-
-        setListener();
-
-        init();
-        mineListAdapter = new SimpleAdapter(mActivity, getData(), R.layout.listview_mine, options, ids);
-
-        listView.setAdapter(mineListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    switch (position) {
-                        case 0:
-                            Intent intent = new Intent(mActivity, MyInfoActivity.class);
-                            startActivity(intent);
-                            break;
-                        case 1:
-                            Intent MyActivityintent=new Intent(mActivity,MyActivityActivity.class);
-                            startActivity(MyActivityintent);
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            Intent aboutusIntent=new Intent(mActivity,AboutUsActivity.class);
-                            startActivity(aboutusIntent);
-                            break;
-                        case 4:
-//                            Intent feedbackIntent=new Intent(mActivity,FeedBackActivity.class);
-//                            startActivity(feedbackIntent);
-                            break;
-                        case 5:
-                            quitDialog();
-                            break;
-                        default:
-                            break;
-                    }
-            }
-                /*
-                退出登录  对话框
-                 */
-            private void quitDialog() {
-            final AlertDialog quitDialog=new AlertDialog.Builder(mActivity).create();
-                View view=inflater.inflate(R.layout.logout,null,false);
-                quitDialog.show();
-                /*
-                 *  直接从xml设置dialog不能铺满整个宽度 ，通过以下代码设置
-                 */
-                Window window=quitDialog.getWindow();
-                window.getDecorView().setPadding(0,0,0,0);
-                WindowManager.LayoutParams layoutParams=window.getAttributes();
-                layoutParams.width=WindowManager.LayoutParams.FILL_PARENT;
-                window.setAttributes(layoutParams);
-
-                quitDialog.setContentView(view);
-                quitDialog.getWindow().setGravity(Gravity.BOTTOM);
-
-                TextView logoutTextView= (TextView) view.findViewById(tv_logout);
-                TextView cancelTextView= (TextView) view.findViewById(R.id.tv_cancel);
-
-                logoutTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AVUser.logOut();
-                        AVUser currentUser=AVUser.getCurrentUser();
-                        Intent intent=new Intent(mActivity, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
-                cancelTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        quitDialog.cancel();
-                    }
-                });
-
-            }
-        });
-
-
-        return view;
     }
     class HeadPicAsyncTask extends AsyncTask<String,Void,Bitmap>{
         @Override
@@ -269,12 +291,20 @@ public class MineFragment extends BaseFragment  {
         map.put("options_list", "我的活动");
         map.put("img_right", R.drawable.go);
         list.add(map);
+
+
+
         map = new HashMap<>();
         map.put("img_left", R.drawable.share);
-        map.put("options_list", "分享软件");
+        map.put("options_list", "我的兼职");
         map.put("img_right", R.drawable.go);
         list.add(map);
 
+        map=new HashMap<>();
+        map.put("img_left",R.drawable.mysupport);
+        map.put("options_list","我的赞助");
+        map.put("img_right",R.drawable.go);
+        list.add(map);
 
         map = new HashMap<>();
         map.put("img_left", R.drawable.about);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
@@ -15,6 +14,7 @@ import com.sherlockkk.snail.tools.ToolLog;
 import com.sherlockkk.snail.tools.ToolString;
 import com.sherlockkk.snail.ui.EditText.ClearableEditText;
 import com.sherlockkk.snail.utils.JsonParseUtil;
+import com.sherlockkk.snail.utils.Utils;
 
 import org.json.JSONException;
 
@@ -126,7 +126,8 @@ public class LoginActivity extends BaseActivity {
                 if (e == null) {
                     //登陆成功
                     isLogin=true;
-                    Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                    Utils.showToast(LoginActivity.this,"登录成功");
+                   // Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -141,7 +142,4 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
-
-
-
 }

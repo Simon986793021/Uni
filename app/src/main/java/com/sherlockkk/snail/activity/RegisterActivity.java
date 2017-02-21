@@ -28,6 +28,7 @@ import com.sherlockkk.snail.ui.EditText.PasswordInputView;
 import com.sherlockkk.snail.ui.EditText.PhoneTextWatcher;
 import com.sherlockkk.snail.ui.WheelView;
 import com.sherlockkk.snail.utils.JsonParseUtil;
+import com.sherlockkk.snail.utils.Utils;
 
 import org.json.JSONException;
 
@@ -35,9 +36,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 /**
- * @author SongJian
- * @created 2016/2/10.
- * @e-mail 1129574214@qq.com
+ * @author Simon
+ * @created 2016/9/10.
+ * @e-mail 986793021@qq.com
  */
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static String TAG = "RegisterActivity";
@@ -158,23 +159,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private void registerAction(String nNickName, String pWord, String pNumber) {
         if (isFinal) {
             //在这里提交个人信息到服务器
+
             dialog = ToolDialog.showSpinnerDialog(RegisterActivity.this, "提交中，请稍候...");
-            double account = 0.00;//账户金额
-            int level = 0;//等级
-            int exp = 0;//经验值
-            if (school == null || school.equals("请选择学校")) {
-                showShortToast(RegisterActivity.this, "请选择你的学校");
-                return;
-            }
-            if (gender == null) {
-                showShortToast(RegisterActivity.this, "请选择你的性别");
-                return;
-            }
             user.put("gender", gender);
             user.put("school", school);
-            user.put("account", account);
-            user.put("level", level);
-            user.put("exp", exp);
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(AVException e) {
@@ -183,7 +171,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         startActivity(LoginActivity.class, null, true);
                         USEROBJECTID=user.getObjectId();
                     } else {
-                        showShortToast(RegisterActivity.this, "提交出错了，稍后试试吧~");
+                        Utils.showToast(RegisterActivity.this,"提交出错了，稍后试试吧~");
+                        //  showShortToast(RegisterActivity.this, "提交出错了，稍后试试吧~");
                     }
                 }
             });
@@ -198,10 +187,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         String phoneNum = ToolString.removeAllSpace(pNumber);
         if (phoneNum == null || phoneNum.equals("")) {
-            showShortToast(RegisterActivity.this, "手机号码不能为空");
+            Utils.showToast(RegisterActivity.this,"手机号码不能为空");
+           // showShortToast(RegisterActivity.this, "手机号码不能为空");
             return;
         } else if (phoneNum.length() < 11) {
-            showShortToast(RegisterActivity.this, "请输入正确的手机号码");
+            Utils.showToast(RegisterActivity.this,"请输入正确的手机号码");
+            //showShortToast(RegisterActivity.this, "请输入正确的手机号码");
             return;
         }
         user.setUsername(nNickName);
@@ -229,7 +220,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     try {
                         String msg = JsonParseUtil.parseJSONObject(e.getMessage(), "error");
-                        showShortToast(RegisterActivity.this, "注册未验证账户失败:" + msg);
+                        Utils.showToast(RegisterActivity.this,"注册未验证账户失败:"+msg);
+                       // showShortToast(RegisterActivity.this, "注册未验证账户失败:" + msg);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -241,42 +233,51 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     boolean isFinal = false;
 
     private void verifiyCode(String vCode) {
-        dialog = ToolDialog.showSpinnerDialog(RegisterActivity.this, "验证中...");
+
         final String code = ToolString.removeAllSpace(vCode);
         if (code == null || code.equals("")) {
-            showShortToast(RegisterActivity.this, "验证码不能为空");
+            Utils.showToast(RegisterActivity.this,"验证码不能为空");
+           // showShortToast(RegisterActivity.this, "验证码不能为空");
             return;
         }
-        AVUser.verifyMobilePhoneInBackground(code, new AVMobilePhoneVerifyCallback() {
-            @Override
-            public void done(AVException e) {
-                dialog.dismiss();
-                if (e == null) {
-                    //验证成功,进入下一步
-                    isFinal = true;
-                    verificationCode.setVisibility(View.GONE);
-                    linearLayout_info.setVisibility(View.VISIBLE);
-                    showShortToast(RegisterActivity.this, "欢迎来到Uni,请补全个人信息");
-                    btn_register.setText("完成");
-                } else {
-                    showShortToast(RegisterActivity.this, "验证码错误，请重试");
+        else {
+            AVUser.verifyMobilePhoneInBackground(code, new AVMobilePhoneVerifyCallback() {
+                @Override
+                public void done(AVException e) {
+                    dialog.dismiss();
+                    if (e == null) {
+                        //验证成功,进入下一步
+                        isFinal = true;
+                        verificationCode.setVisibility(View.GONE);
+                        linearLayout_info.setVisibility(View.VISIBLE);
+                        Utils.showToast(getApplicationContext(),"欢迎来到Uni,请补全个人信息");
+                        // showShortToast(RegisterActivity.this, "欢迎来到Uni,请补全个人信息");
+                        btn_register.setText("完成");
+                    } else {
+                        Utils.showToast(getApplicationContext(),"验证码错误，请重试");
+                        //showShortToast(RegisterActivity.this, "验证码错误，请重试");
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
     /*判断相关输入是否为空*/
     public boolean isEmpty(String nickName, String phoneNumber, String password) {
         if (TextUtils.isEmpty(nickName)) {
-            showShortToast(this, "昵称不能为空");
+            Utils.showToast(getApplicationContext(),"昵称不能为空");
+            //showShortToast(this, "昵称不能为空");
             return false;
         }
         if (TextUtils.isEmpty(phoneNumber)) {
-            showShortToast(this, "手机号码不能为空");
+            Utils.showToast(getApplicationContext(),"手机号码不能为空");
+            //showShortToast(this, "手机号码不能为空");
             return false;
         }
         if (TextUtils.isEmpty(password)) {
-            showShortToast(this, "密码不能为空");
+            Utils.showToast(getApplicationContext(),"密码不能为空");
+            //  showShortToast(this, "密码不能为空");
             return false;
         }
         return true;
@@ -302,6 +303,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 //            btn_VCode.setClickable(true);
         }
     }
-
+        private boolean informationIsEmpty(String school,String gender)
+        {
+            if (school == null || school.equals("请选择学校")) {
+                Utils.showToast(RegisterActivity.this,"请选择你的学校");
+                //  showShortToast(RegisterActivity.this, "请选择你的学校");
+                return false;
+            }
+           else if (gender == null) {
+                Utils.showToast(RegisterActivity.this,"请选择你的性别");
+                //  showShortToast(RegisterActivity.this, "请选择你的性别");
+                return false;
+            }
+             else {
+             return  true;
+            }
+        }
 
 }

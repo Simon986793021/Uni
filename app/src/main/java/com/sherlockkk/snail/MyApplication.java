@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.sherlockkk.snail.model.PartTimeJob;
 import com.sherlockkk.snail.model.SchoolActivity;
 import com.sherlockkk.snail.model.Secondary;
 
@@ -33,6 +34,7 @@ public class MyApplication extends MultiDexApplication {
         myApplication = this;
 
         //Leancloud初始化
+        AVObject.registerSubclass(PartTimeJob.class);
         AVObject.registerSubclass(SchoolActivity.class);
         AVObject.registerSubclass(Secondary.class);
         AVOSCloud.initialize(this, Constants.LEANCLOUD_ID, Constants.LEANCLOUD_KEY);
@@ -59,8 +61,6 @@ public class MyApplication extends MultiDexApplication {
         config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
         config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
-//        config.writeDebugLogs(); // Remove for release app
-        // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config.build());
     }
 

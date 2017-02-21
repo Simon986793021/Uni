@@ -33,6 +33,7 @@ import com.avos.avoscloud.SaveCallback;
 import com.sherlockkk.snail.R;
 import com.sherlockkk.snail.ui.CircleImageView;
 import com.sherlockkk.snail.utils.CacheUtils;
+import com.sherlockkk.snail.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -236,17 +237,30 @@ public class MyInfoActivity extends Activity implements View.OnClickListener {
         TextView cameraPic = (TextView) view.findViewById(R.id.tv_camera_pic);
 
         albumPic.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 selectDialog.dismiss();
-                getAvataFromAlbum();
+                if (Utils.isNetworkAvailable(MyInfoActivity.this))
+                {
+                    getAvataFromAlbum();
+                }
+                else {
+                    Utils.showNoNetWorkToast(MyInfoActivity.this);
+                }
             }
         });
         cameraPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectDialog.dismiss();
-                getAvataFromCamera();
+                if (Utils.isNetworkAvailable(MyInfoActivity.this))
+                {
+                    getAvataFromCamera();
+                }
+               else {
+                    Utils.showNoNetWorkToast(MyInfoActivity.this);
+                }
             }
         });
 

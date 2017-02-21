@@ -6,7 +6,7 @@ import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 
 /**
- * Created by Administrator on 2016/9/10.
+ * Created by Simon on 2016/9/10.
  */
 @AVClassName("SchoolActivity")
 public class SchoolActivity extends AVObject implements Parcelable{
@@ -22,9 +22,19 @@ public class SchoolActivity extends AVObject implements Parcelable{
     private String signupUsername;
     private String signupPhonenum;
     private String signupTime;
+    private String supportprice;//赞助金额
 
     public SchoolActivity() {
     }
+    public  void setSupportprice(String supportprice)
+    {
+        put("SupportPrice",supportprice);
+    }
+    public String getSupportprice()
+    {
+        return  getString("SupportPrice");
+    }
+
     public String getSignupUsername()
     {
         return  getString("signupUsername");

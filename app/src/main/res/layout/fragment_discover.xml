@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f1f1f1">
 
-    <View
-        style="@style/h_line"
-        android:layout_marginTop="25dp" />
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:id="@+id/ll_campus"
         style="@style/option_item_rl" >
 
@@ -15,14 +14,17 @@
             style="@style/option_item_img"
             android:contentDescription="@null"
             android:layout_marginRight="@dimen/space_10"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@drawable/xiaoyuan"/>
 
         <TextView
             style="@style/option_item_text"
             android:text="先知校园" />
-    </LinearLayout>
-    <View
-        style="@style/h_line" />
+        <LinearLayout
+           style="@style/right_go_linearlayout">
+        <ImageView
+            style="@style/right_go_imageview"/>
+        </LinearLayout>
+        </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_top"
         style="@style/option_item_rl"
@@ -31,11 +33,19 @@
             style="@style/option_item_img"
             android:contentDescription="@null"
             android:layout_marginRight="@dimen/space_10"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@drawable/toutiao"/>
         <TextView
             style="@style/option_item_text"
             android:text="新闻头条" />
+        <LinearLayout
+            style="@style/right_go_linearlayout">
+            <ImageView
+                style="@style/right_go_imageview"/>
+        </LinearLayout>
     </LinearLayout>
+    <View
+        style="@style/h_line"
+       />
     <LinearLayout
         android:id="@+id/ll_yule"
         style="@style/option_item_rl"
@@ -44,10 +54,15 @@
             style="@style/option_item_img"
             android:contentDescription="@null"
             android:layout_marginRight="@dimen/space_10"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@drawable/yule"/>
         <TextView
             style="@style/option_item_text"
             android:text="娱乐新闻" />
+        <LinearLayout
+            style="@style/right_go_linearlayout">
+            <ImageView
+                style="@style/right_go_imageview"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_keji"
@@ -57,11 +72,19 @@
             style="@style/option_item_img"
             android:contentDescription="@null"
             android:layout_marginRight="@dimen/space_10"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@drawable/keji"/>
         <TextView
             style="@style/option_item_text"
             android:text="科技新闻" />
+        <LinearLayout
+            style="@style/right_go_linearlayout">
+            <ImageView
+                style="@style/right_go_imageview"/>
+        </LinearLayout>
     </LinearLayout>
+    <View
+        style="@style/h_line"
+        />
     <LinearLayout
         android:id="@+id/ll_tiyu"
         style="@style/option_item_rl"
@@ -70,10 +93,15 @@
             style="@style/option_item_img"
             android:contentDescription="@null"
             android:layout_marginRight="@dimen/space_10"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@drawable/tiyu"/>
         <TextView
             style="@style/option_item_text"
             android:text="体育新闻" />
+        <LinearLayout
+            style="@style/right_go_linearlayout">
+            <ImageView
+                style="@style/right_go_imageview"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_guoji"
@@ -83,11 +111,19 @@
             style="@style/option_item_img"
             android:contentDescription="@null"
             android:layout_marginRight="@dimen/space_10"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@drawable/guoji"/>
         <TextView
             style="@style/option_item_text"
             android:text="国际新闻" />
+        <LinearLayout
+            style="@style/right_go_linearlayout">
+            <ImageView
+                style="@style/right_go_imageview"/>
+        </LinearLayout>
     </LinearLayout>
+    <View
+        style="@style/h_line"
+        />
     <LinearLayout
         android:id="@+id/ll_shishang"
         style="@style/option_item_rl"
@@ -96,9 +132,14 @@
             style="@style/option_item_img"
             android:contentDescription="@null"
             android:layout_marginRight="@dimen/space_10"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@drawable/shishang"/>
         <TextView
             style="@style/option_item_text"
             android:text="时尚新闻" />
+        <LinearLayout
+            style="@style/right_go_linearlayout">
+            <ImageView
+                style="@style/right_go_imageview"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

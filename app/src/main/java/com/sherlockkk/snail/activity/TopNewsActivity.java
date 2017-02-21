@@ -1,8 +1,10 @@
 package com.sherlockkk.snail.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,7 +14,7 @@ import com.sherlockkk.snail.utils.NewsListAsyncTask;
 /**
  * Created by Simon on 2016/9/26.
  */
-public class TopNewsActivity extends Activity{
+public class TopNewsActivity extends Activity implements AdapterView.OnItemClickListener {
     private TextView backTextView;
     private TextView toolbarTextView;
     private ListView listView;
@@ -26,11 +28,20 @@ public class TopNewsActivity extends Activity{
         listView= (ListView) findViewById(R.id.lv_news_list);
         toolbarTextView.setText("新闻头条");
         new NewsListAsyncTask(listView, TopNewsActivity.this).execute(URL);
+        listView.setOnItemClickListener(this);
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String url=NewsListAsyncTask.list.get(position).url;
+        Intent intent=new Intent(this,NewDetailActivity.class);
+        intent.putExtra("url",url);
+        startActivity(intent);
     }
 }

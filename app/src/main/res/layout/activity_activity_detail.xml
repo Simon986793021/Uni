@@ -30,9 +30,13 @@
         />
         </ScrollView>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical">
     <Button
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:id="@+id/bt_sign_up"
         android:background="#ff4500"
         android:textColor="#fff"
@@ -40,4 +44,16 @@
         android:text="立即报名"
         android:layout_gravity="bottom"
         />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/bt_support"
+            android:background="#ff4500"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:text="立即赞助"
+            android:layout_gravity="bottom"
+            />
+    </LinearLayout>
 </LinearLayout>

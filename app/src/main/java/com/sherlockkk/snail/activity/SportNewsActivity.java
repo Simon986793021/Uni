@@ -1,18 +1,20 @@
 package com.sherlockkk.snail.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sherlockkk.snail.R;
-import com.sherlockkk.snail.utils.NewsListAsyncTask;
+import com.sherlockkk.snail.utils.OtherNewsListAsyncTask;
 
 /**
- * Created by Administrator on 2016/9/26.
+ * Created by Simon on 2016/9/26.
  */
-public class SportNewsActivity extends Activity{
+public class SportNewsActivity extends Activity implements AdapterView.OnItemClickListener{
     private TextView backTextView;
     private TextView toolbarTextView;
     private ListView listview;
@@ -25,12 +27,19 @@ public class SportNewsActivity extends Activity{
         toolbarTextView= (TextView) findViewById(R.id.tv_activity_toolbar_center);
         listview= (ListView) findViewById(R.id.lv_news_list);
         toolbarTextView.setText("体育新闻");
-        new NewsListAsyncTask(listview,SportNewsActivity.this).execute(URL);
+        listview.setOnItemClickListener(this);
+        new OtherNewsListAsyncTask(listview,SportNewsActivity.this).execute(URL);
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+    }
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String url= OtherNewsListAsyncTask.list.get(position).url;
+        Intent intent=new Intent(this,NewDetailActivity.class);
+        intent.putExtra("url",url);
+        startActivity(intent);
     }
 }

@@ -66,7 +66,7 @@
     <dimen name="space_13">13.0dip</dimen>
     <dimen name="space_12">12.0dip</dimen>
     <dimen name="space_11">11.0dip</dimen>
-    <dimen name="space_10">10.0dip</dimen>
+    <dimen name="space_10">20.0dip</dimen>
     <dimen name="space_9">9.0dip</dimen>
     <dimen name="space_8">8.0dip</dimen>
     <dimen name="space_7">7.0dip</dimen>

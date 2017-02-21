@@ -2,6 +2,7 @@ package com.sherlockkk.snail.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import java.util.List;
 
 /**
  * Created by Simon on 2016/9/17.
+ * updata by Simon on 2016/12/10
  */
 public class ActivityDetailActivity extends Activity implements View.OnClickListener{
     private TextView backTextView;
@@ -38,6 +40,8 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
     private Button button;
     private String phonenum;
     private String Username;
+    private Button supportbutton;
+    private String payInfo;
    private List<String> list=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +52,19 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
         titleTextView= (TextView) findViewById(R.id.tv_title_detail);
         imageview= (ImageView) findViewById(R.id.iv_pic_detail);
         button= (Button) findViewById(R.id.bt_sign_up);
+        supportbutton= (Button) findViewById(R.id.bt_support);
         toolbarTextView.setText("活动详情");
         backTextView.setOnClickListener(this);
+        supportbutton.setOnClickListener(this);
         button.setOnClickListener(this);
         loadData();
-
-
-
-
     }
 
     private void loadData() {
         schoolActivity = (SchoolActivity) getIntent().getParcelableExtra("schoolactivity");
         if (schoolActivity!= null) {
             titleTextView.setText(schoolActivity.getActivityDetail().toString());
+            payInfo=schoolActivity.getActivityTitle().toString();
             String PicBase64 = schoolActivity.getPic();
             byte[] bytes= Base64.decode(PicBase64.getBytes(),1);
             Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
@@ -77,7 +80,20 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
                 finish();
                 break;
             case R.id.bt_sign_up:
-                showSelectDialog();
+                if (Utils.isNetworkAvailable(ActivityDetailActivity.this))
+                {
+                    showSelectDialog();
+                }
+                else {
+                    Utils.showNoNetWorkToast(ActivityDetailActivity.this);
+                }
+                break;
+            case R.id.bt_support:
+                Intent intent=new Intent(ActivityDetailActivity.this,PayActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putParcelable("schoolactivity",schoolActivity);//将整个对象传过去
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -86,7 +102,7 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
 
     private void showSelectDialog() {
         final AlertDialog alertdialog=new AlertDialog.Builder(ActivityDetailActivity.this).create();
-        alertdialog.setCanceledOnTouchOutside(true);
+        alertdialog.setCanceledOnTouchOutside(true);//点击旁边dialog消失
         View view= LayoutInflater.from(this).inflate(R.layout.dialog_sign_up,null,false);
         alertdialog.show();
         alertdialog.setContentView(view);
@@ -107,7 +123,7 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
                 List<String> mylist=new ArrayList<String>();
                 schoolActivity = (SchoolActivity) getIntent().getParcelableExtra("schoolactivity");
 
-                mylist=schoolActivity.getList("phonenum");
+                mylist=schoolActivity.getList("signupPhonenum");
 
                 if (mylist!=null&&mylist.contains(phonenum))
                 {
@@ -115,9 +131,6 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
                 }
 
                 else {
-                    alertdialog.cancel();
-
-
 
                     AVObject.saveAllInBackground(Arrays.asList(schoolActivity), new SaveCallback() {
                         @Override
@@ -129,7 +142,7 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
                                 public void done(AVException e) {
                                     if (e==null)
                                     {
-                                        schoolActivity.add("phonenum",phonenum);//add方法，添加的数据为array型
+                                        schoolActivity.add("signupPhonenum",phonenum);//add方法，添加的数据为array型
                                         schoolActivity.saveInBackground();
                                         Utils.showToast(ActivityDetailActivity.this,"报名成功");
                                     }
@@ -138,6 +151,7 @@ public class ActivityDetailActivity extends Activity implements View.OnClickList
                         }
                     });
                 }
+                alertdialog.cancel();
 
 
             }

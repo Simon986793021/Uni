@@ -19,13 +19,14 @@ import com.sherlockkk.snail.model.NewsDetail;
 import com.sherlockkk.snail.model.NewsList;
 import com.sherlockkk.snail.model.TopBannerEntity;
 import com.sherlockkk.snail.ui.HomeBanner;
+import com.sherlockkk.snail.utils.Utils;
 
 import java.util.List;
 
 /**
- * @author SongJian
+ * @author Simon
  * @created 2016/1/17.
- * @e-mail 1129574214@qq.com
+ * @e-mail 986793021@qq.com
  * <p>
  * 首页Fragment
  */
@@ -43,14 +44,22 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        listView = (ListView) view.findViewById(R.id.lv_joke);
-        View header = inflater.inflate(R.layout.banner, listView, false);
-        homeBanner = (HomeBanner) header.findViewById(R.id.banner);
-        homeBanner.setImagesRes(new int[]{R.drawable.home_banner01,R.drawable.home_banner02,R.drawable.home_banner03,R.drawable.home_banner04});
-        listView.addHeaderView(header);
-        loadData();
-        return view;
+       if (Utils.isNetworkAvailable(mActivity)==false)
+        {
+            View view=inflater.inflate(R.layout.nonetwork,null,false);
+            return view;
+        }
+        else {
+           View view = inflater.inflate(R.layout.fragment_home, container, false);
+           listView = (ListView) view.findViewById(R.id.lv_joke);
+           View header = inflater.inflate(R.layout.banner, listView, false);
+           homeBanner = (HomeBanner) header.findViewById(R.id.banner);
+           homeBanner.setImagesRes(new int[]{R.drawable.home_banner01,R.drawable.home_banner02,R.drawable.home_banner03,R.drawable.home_banner04});
+           listView.addHeaderView(header);
+           loadData();
+           return view;
+       }
+
     }
 
     private void loadData() {

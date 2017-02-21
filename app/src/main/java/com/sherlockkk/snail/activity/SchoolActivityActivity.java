@@ -60,7 +60,6 @@ public class SchoolActivityActivity extends Activity implements View.OnClickList
                 @Override
                 public void done(List<SchoolActivity> list, AVException e) {
                     if (list!=null) {
-
                         swipeRefreshLayout.setRefreshing(false);
                         ActivityListAdapter activityListAdapter = new ActivityListAdapter(SchoolActivityActivity.this);
                         activityListAdapter.addList(list);

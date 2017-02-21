@@ -67,9 +67,9 @@ public class ActivityListAdapter extends BaseAdapter {
         viewHolder.titleTextView.setText(list.get(position).getActivityTitle().trim().toString());
         viewHolder.starttimeTextView.setText("活动时间："+list.get(position).getActivityTime().trim().toString());
         int acount;
-        if (list.get(position).getList("phonenum")!=null)
+        if (list.get(position).getList("signupPhonenum")!=null)
         {
-             acount= list.get(position).getList("phonenum").size();
+             acount= list.get(position).getList("signupPhonenum").size();
         }
         else
         {

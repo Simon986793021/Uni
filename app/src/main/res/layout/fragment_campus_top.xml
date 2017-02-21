@@ -18,23 +18,23 @@
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="学习助手"
-            android:id="@+id/tv_learning"
+            android:text="校园兼职"
+            android:id="@+id/tv_part_time_job"
             android:drawableTop="@drawable/learningassistant"/>
         <TextView
             android:id="@+id/tv_activity"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="校园活动"
             android:drawableTop="@drawable/schoolactivity"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="生活助手"

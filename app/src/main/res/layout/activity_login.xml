@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
             android:layout_marginTop="80dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/unilogin" />
 
         <LinearLayout
             android:layout_width="match_parent"
